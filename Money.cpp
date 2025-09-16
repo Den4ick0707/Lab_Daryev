@@ -76,13 +76,13 @@ bool Money::setCounts(long counts)
 #pragma region
 Money Money::operator+(const Money& other) const
 {
-	if(_denominations<0)
+	if (_denominations < 0)
 		return Money(0, _counts + other._counts);
 
 	if (_counts < 0)
 		return Money(_denominations, 0);
 
-	return Money(_denominations+other._denominations, _counts+other._counts);
+	return Money(_denominations + other._denominations, _counts + other._counts);
 }
 
 Money Money::operator-(const Money& other) const
@@ -92,7 +92,7 @@ Money Money::operator-(const Money& other) const
 			return Money(0, _counts - other._counts);
 
 		if (_counts < 0)
-			return Money(_denominations- other._denominations, 0);
+			return Money(_denominations - other._denominations, 0);
 
 		return Money(_denominations - other._denominations, _counts - other._counts);
 	}
@@ -129,24 +129,83 @@ bool Money::operator<(const Money& other) const
 	if (_denominations < other._denominations && _counts < other._counts)
 		return true;
 
-	if (_denominations == other._denominations && _counts < other._counts)
-		return true;
-	if (_denominations < other._denominations && _counts == other._counts)
+	else if (_denominations == other._denominations && _counts < other._counts)
 		return true;
 
+	else if (_denominations < other._denominations && _counts == other._counts)
+		return true;
+
+	else return false;
 }
 
 bool Money::operator<=(const Money& other) const
 {
-	return false;
+	if (_denominations <= other._denominations && _counts <= other._counts)
+		return true;
+
+	else return false;
 }
 
 bool Money::operator>(const Money& other) const
 {
-	return false;
+	if (_denominations > other._denominations && _counts > other._counts)
+		return true;
+
+	else if (_denominations == other._denominations && _counts > other._counts)
+		return true;
+
+	else if (_denominations > other._denominations && _counts == other._counts)
+		return true;
+
+	else return false;
 }
 
 bool Money::operator>=(const Money& other) const
 {
-	return false;
+	if (_denominations >= other._denominations && _counts >= other._counts)
+		return true;
+
+	else return false;
 }
+
+Money::operator std::string() const
+{
+	std::string a = "_denominations ";
+	a.push_back(_denominations);
+	a.push_back('  ');
+	a += "_counts ";
+	a.push_back(_counts );
+}
+
+Money& Money::operator++() // Prefix increment
+{
+	++_counts;
+	return *this;
+}
+
+Money Money::operator++(int) // Postfix increment
+{
+	Money temp = *this;
+	++_counts;
+	return temp;
+}
+
+Money& Money::operator--() // Prefix decrement
+{
+	if (_counts > 0)
+		--_counts;
+	return *this;
+}
+
+Money Money::operator--(int) // Postfix decrement
+{
+	Money temp = *this;
+	if (_counts > 0)
+		--_counts;
+	return temp;
+}
+
+#pragma endregion
+
+
+
