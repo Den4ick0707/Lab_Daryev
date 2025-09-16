@@ -204,7 +204,7 @@ Money Money::operator--(int) // Postfix decrement
 		--_counts;
 	return temp;
 }
-
+ 
 #pragma endregion
 
 
